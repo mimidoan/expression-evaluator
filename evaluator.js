@@ -1,10 +1,18 @@
+/* driver function
+  @parameter expression string
+*/
 function main(expression) {
+  // initalize two arrays that will serve as our stacks
   let opStack = [];
   let numStack = [];
 
+  // fill stacks
   opOrNum(expression, opStack, numStack);
+
+  // evaluate the expression
   const ans = evaluate(opStack, numStack);
 
+  // return answer
   return ans;
 }
 
@@ -29,7 +37,6 @@ function isValidOp(ele) {
 //  validates the numerical parameters
 function isValidNum(ele) {
   const valid = Number(ele) ? true : false;
-
   return valid;
 }
 
@@ -40,13 +47,16 @@ function evaluate(opStack, numStack) {
   };
 
   while (opStack.length > 0) {
-    operator = opStack.pop();
-    first = numStack.pop();
-    second = numStack.pop();
+    // pop from 'top' of stack or beginning of array
+    operator = opStack.shift();
+    first = numStack.shift();
+    second = numStack.shift();
 
+    // push evlatuated num back onto the top of the stack
     numStack.unshift(operations[operator](first, second));
   }
 
+  // return the answer or undefined
   if (numStack.length === 1) return numStack.pop();
   else return undefined;
 }
